@@ -65,20 +65,17 @@ with open( options.header, 'r' ) as f:
 
 # out everything *after* first <body> and *before* </body>
 with open( options.body, 'r' ) as f:
-    rxBegin    = re.compile( '<body>' )
+    rxBegin    = re.compile( '<body.*>' )
     rxEnd      = re.compile( '</body>' )
     inside  = False
-    lstrip  = False
     for line in f:
         if rxBegin.match( line ):
             inside = True
             continue
         if rxEnd.match( line ):
-            outside = False
+            inside = False
             continue
 
-        if lstrip:
-            line = line.lstrip()
         if inside:
             sys.stdout.write( line )
 
