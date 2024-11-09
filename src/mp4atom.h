@@ -66,6 +66,7 @@ class MP4Atom
 public:
     static MP4Atom* ReadAtom( MP4File& file, MP4Atom* pParentAtom );
     static MP4Atom* CreateAtom( MP4File& file, MP4Atom* parent, const char* type );
+    static MP4Atom* CreateCustomAtom(MP4File& file, MP4Atom* parent, const char* type, const uint8_t* pData, uint32_t dataSize);
     static bool IsReasonableType( const char* type );
 
 private:

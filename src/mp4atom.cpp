@@ -80,6 +80,21 @@ MP4Atom* MP4Atom::CreateAtom( MP4File &file, MP4Atom* parent, const char* type )
     return atom;
 }
 
+MP4Atom* MP4Atom::CreateCustomAtom(MP4File& file, MP4Atom* parent, const char* type, const uint8_t* pData, uint32_t dataSize)
+{
+    MP4Atom* atom = factory(file, parent, type);
+    ASSERT(atom);
+    atom->SetUnknownType();
+    atom->SetSize(dataSize);
+    if (dataSize > 0) {
+        MP4BytesProperty* pProperty = new MP4BytesProperty(*atom, "data", dataSize);
+        pProperty->SetValue(pData, dataSize);
+        atom->AddProperty(pProperty);
+    }
+    parent->AddChildAtom(atom);
+    return atom;
+}
+
 // generate a skeletal self
 
 void MP4Atom::Generate()

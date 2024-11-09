@@ -637,6 +637,26 @@ MP4FileHandle MP4ModifyCallbacks(const MP4IOCallbacks* callbacks,
         return false;
     }
 
+    bool MP4AddCustomAtom(MP4FileHandle hFile, const char* parentName, const char* childName, const uint8_t* pData,
+        uint32_t dataSize)
+    {
+        if (MP4_IS_VALID_FILE_HANDLE(hFile)) {
+            try {
+                MP4File* pFile = (MP4File*)hFile;
+                MP4Atom* pAtom = MP4Atom::CreateCustomAtom(*pFile, pFile->FindAtom(parentName), childName, pData, dataSize);
+                return pAtom != NULL;
+            }
+            catch (Exception* x) {
+                mp4v2::impl::log.errorf(*x);
+                delete x;
+            }
+            catch (...) {
+                mp4v2::impl::log.errorf("%s: failed", __FUNCTION__);
+            }
+        }
+        return false;
+    }
+
     bool MP4GetIntegerProperty(
         MP4FileHandle hFile, const char* propName, uint64_t *retvalue)
     {

@@ -50,6 +50,28 @@ bool MP4HaveAtom(
     MP4FileHandle hFile,
     const char*   atomName );
 
+/** Add a new atom
+ *
+ *  MP4AddCustomAtom adds a new atom passed in @p childName as a child of @p parentName. @p
+ *  parentName can specify an atom path to add atoms below atoms that are not top level
+ *  atoms, e.g. "moov.udta.meta.ilst".
+ *
+ *  @param hFile handle of file for operation.
+ *  @param parentName name of the parent of the atom to be added.
+ *  @param childName name of the atom to be added.
+ *  @param pData pointer to data to be associated with the atom to be added.
+ *  @param dataSize size of the data to be associated with the atom to be added.
+ *
+ *  @return true (1) if the atom is added, false (0) otherwise.
+ */
+MP4V2_EXPORT
+bool MP4AddCustomAtom(
+    MP4FileHandle hFile,
+    const char* parentName,
+    const char* childName,
+    const uint8_t* pData,
+    uint32_t dataSize);
+
 /** Get the value of an integer property.
  *
  *  MP4GetIntegerProperty determines the value of the integer property
